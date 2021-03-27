@@ -52,11 +52,11 @@ f_1 = tf.keras.Input(shape=(input_size, input_size, num_features), name="input")
 f_2 = fwht(f_1)
 
 
-a = tf.math.abs(f_2)
-b = tf.constant(np.arange(num_features)/(10*num_features), dtype=tf.float32)
+a = tf.math.abs(f_2[:, :, :, 1:])
+b = tf.constant(np.arange(1, num_features)/(10*num_features), dtype=tf.float32)
 r = tf.keras.layers.ReLU()(a-b)
-t = tf.math.tanh(f_2)
-f_3 = tf.keras.layers.Multiply()([t, r])
+t = tf.math.tanh(f_2[:, :, :, 1:])
+f_3 = tf.concat([f_2[:, :, :, 0:1], tf.keras.layers.Multiply()([t, r])], axis = -1)
 
 f_4 = fwht(f_3)
 model = tf.keras.Model(inputs=f_1, outputs=f_4)

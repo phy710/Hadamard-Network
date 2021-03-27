@@ -11,11 +11,11 @@ from time import time
 
 model_conv = tf.keras.models.load_model('./conv/saved_model/')
 model_hwt = tf.keras.models.load_model('./wht/saved_model/')
-model_fwht_tensordot = tf.keras.models.load_model('./fwht_tensordot/saved_model/')
+model_fwht = tf.keras.models.load_model('./fwht/saved_model/')
 
 lite_model_conv = tf.lite.Interpreter(model_path="./conv/lite_model.tflite")
 lite_model_hwt = tf.lite.Interpreter(model_path="./wht/lite_model.tflite")
-lite_model_fhwt_tensordot = tf.lite.Interpreter(model_path="./fwht_tensordot/lite_model.tflite")
+lite_model_fhwt = tf.lite.Interpreter(model_path="./fwht/lite_model.tflite")
 
 input_shape = model_conv.input.shape.as_list()
 input_size = input_shape[-2]
@@ -55,10 +55,10 @@ while True:
     
     start = time()
     for i in range(num):
-        lite_model_fhwt_tensordot.allocate_tensors()
-        lite_model_fhwt_tensordot.set_tensor(lite_model_fhwt_tensordot.get_input_details()[0]['index'], x[i:i+1, :, :])
-        lite_model_fhwt_tensordot.invoke()
-        yy[i:i+1, :, :] = lite_model_fhwt_tensordot.get_tensor(lite_model_fhwt_tensordot.get_output_details()[0]['index'])
+        lite_model_fhwt.allocate_tensors()
+        lite_model_fhwt.set_tensor(lite_model_fhwt.get_input_details()[0]['index'], x[i:i+1, :, :])
+        lite_model_fhwt.invoke()
+        yy[i:i+1, :, :] = lite_model_fhwt.get_tensor(lite_model_fhwt.get_output_details()[0]['index'])
     end = time()
     time2 = end-start
     

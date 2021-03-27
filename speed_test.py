@@ -63,7 +63,7 @@ while True:
     print('TFLite took', time2, 'S.')
         
     start = time()
-    y = model_fwht_tensordot.predict(x)
+    y = model_fwht.predict(x)
     end = time()
     time1 = end-start
     
