@@ -1,4 +1,5 @@
 # Hadamard-Network
+These code is a single layer of 1x1 convolution or FWHT.
 Requirement: TensorFlow 2.4.1, Python 3
 
 1. run conv1x1.py, fast_hadamard.py and hadamard.py to generate the model for speed test.
